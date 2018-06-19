@@ -10,6 +10,7 @@ import macbeth.androidsampler.FirebaseData.FirebaseDataActivity;
 import macbeth.androidsampler.FirebaseLogin.FirebaseLogin;
 import macbeth.androidsampler.GoogleLogin.GoogleLogin;
 import macbeth.androidsampler.JSONRecyclerView.JSONRecyclerView;
+import macbeth.androidsampler.Music.MusicActivity;
 import macbeth.androidsampler.Notifications.Notifications;
 
 public class AndroidSamplerMain extends AppCompatActivity {
@@ -47,6 +48,11 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runFirebaseData(View view) {
         Intent intent = new Intent(this, FirebaseDataActivity.class);
+        startActivity(intent);
+    }
+
+    public void runMusic(View view) {
+        Intent intent = new Intent(this, MusicActivity.class);
         startActivity(intent);
     }
 }

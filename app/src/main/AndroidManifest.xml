@@ -38,7 +38,8 @@
 
         <activity android:name=".FirebaseLogin.FirebaseLogin" />
         <activity android:name=".GoogleLogin.GoogleLogin" />
-        <activity android:name=".FirebaseData.FirebaseDataActivity"></activity>
+        <activity android:name=".FirebaseData.FirebaseDataActivity" />
+        <activity android:name=".Music.MusicActivity"></activity>
     </application>
 
 </manifest>
