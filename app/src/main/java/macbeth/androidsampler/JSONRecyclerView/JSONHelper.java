@@ -1,4 +1,4 @@
-package macbeth.androidsampler.Utilities;
+package macbeth.androidsampler.JSONRecyclerView;
 
 import android.util.Log;
 

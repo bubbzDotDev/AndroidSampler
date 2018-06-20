@@ -1,4 +1,4 @@
-package macbeth.androidsampler.USGSEarthquake;
+package macbeth.androidsampler.JSONRecyclerView;
 
 import java.util.Date;
 

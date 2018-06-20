@@ -42,12 +42,6 @@ public class MusicActivity extends AppCompatActivity {
 
     public void playC(View view) {
         midiFileMediaPlayer.start();
-/*        midiFileMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.stop();
-            }
-        });*/
     }
 
     private void initStream() {

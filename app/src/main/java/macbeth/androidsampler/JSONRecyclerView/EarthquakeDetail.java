@@ -1,4 +1,4 @@
-package macbeth.androidsampler.USGSEarthquake;
+package macbeth.androidsampler.JSONRecyclerView;
 
 /**
  * Contains the detailed earthquake information from the USGS Earthquake JSON

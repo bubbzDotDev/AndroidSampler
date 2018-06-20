@@ -5,10 +5,6 @@ import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import macbeth.androidsampler.USGSEarthquake.EarthquakeEvent;
-import macbeth.androidsampler.USGSEarthquake.EarthquakeList;
-import macbeth.androidsampler.Utilities.JSONHelper;
-
 public class EarthquakeLoader extends AsyncTask<Void, Void, List<EarthquakeEvent>> {
 
     private WeakReference<JSONRecyclerView> activityRef;

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.regex.Pattern;
-import macbeth.androidsampler.Utilities.JSONHelper;
+import macbeth.androidsampler.JSONRecyclerView.JSONHelper;
 
 public class JSONHelperTester {
 

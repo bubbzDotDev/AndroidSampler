@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Locale;
 
 import macbeth.androidsampler.ArcGisMapDisplay.ArcGisMapDisplay;
-import macbeth.androidsampler.USGSEarthquake.EarthquakeEvent;
 import macbeth.androidsampler.R;
 
 public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeAdapter.ViewHolder> {
