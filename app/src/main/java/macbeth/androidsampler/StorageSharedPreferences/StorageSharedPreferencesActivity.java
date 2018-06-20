@@ -12,6 +12,7 @@ import macbeth.androidsampler.R;
 public class StorageSharedPreferencesActivity extends AppCompatActivity {
 
     private EditText etZipCode;
+    private static String SP_ZIP_CODE = "macbeth.androidsampler.zipcode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +20,6 @@ public class StorageSharedPreferencesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_storage_shared_preferences);
         setTitle("Storage Shared Preferences");
         etZipCode = findViewById(R.id.zipcode);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         readSharedPreferences();
     }
 
@@ -36,13 +32,13 @@ public class StorageSharedPreferencesActivity extends AppCompatActivity {
     private void writeSharedPreferences() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("macbeth.androidsampler.zipcode", etZipCode.getText().toString());
+        editor.putString(SP_ZIP_CODE, etZipCode.getText().toString());
         editor.commit();
     }
 
     private void readSharedPreferences() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        String zipCode = sp.getString("macbeth.androidsampler.zipcode","");
+        String zipCode = sp.getString(SP_ZIP_CODE,"");
         etZipCode.setText(zipCode);
         Toast.makeText(this, "Shared Preferences Loaded", Toast.LENGTH_SHORT).show();
     }
