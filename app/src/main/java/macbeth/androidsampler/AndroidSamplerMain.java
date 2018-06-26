@@ -8,8 +8,10 @@ import android.view.View;
 import macbeth.androidsampler.ArcGisMapDisplay.ArcGisMapDisplay;
 import macbeth.androidsampler.FirebaseData.FirebaseDataActivity;
 import macbeth.androidsampler.FirebaseLogin.FirebaseLogin;
+import macbeth.androidsampler.Fragments.FragmentsActivity;
 import macbeth.androidsampler.GoogleLogin.GoogleLogin;
 import macbeth.androidsampler.JSONRecyclerView.JSONRecyclerView;
+import macbeth.androidsampler.Menus.MenusActivity;
 import macbeth.androidsampler.Music.MusicActivity;
 import macbeth.androidsampler.Notifications.Notifications;
 import macbeth.androidsampler.StorageSharedPreferences.StorageSharedPreferencesActivity;
@@ -59,6 +61,16 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runStorageSharedPreferences(View view) {
         Intent intent = new Intent(this, StorageSharedPreferencesActivity.class);
+        startActivity(intent);
+    }
+
+    public void runMenus(View view) {
+        Intent intent = new Intent(this, MenusActivity.class);
+        startActivity(intent);
+    }
+
+    public void runFragments(View view) {
+        Intent intent = new Intent(this, FragmentsActivity.class);
         startActivity(intent);
     }
 }
