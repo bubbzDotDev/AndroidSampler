@@ -16,7 +16,6 @@ public class MusicActivity extends AppCompatActivity {
     private Button pauseButton;
     private Button stopButton;
     private MediaPlayer mediaPlayer;
-    private MediaPlayer midiFileMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class MusicActivity extends AppCompatActivity {
         playButton.setEnabled(true);
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
-        midiFileMediaPlayer = MediaPlayer.create(this, R.raw.note_middle_c);
+
         initStream();
     }
 
@@ -37,10 +36,16 @@ public class MusicActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mediaPlayer.release();
-        midiFileMediaPlayer.release();
     }
 
     public void playC(View view) {
+        MediaPlayer midiFileMediaPlayer = MediaPlayer.create(this, R.raw.note_middle_c);
+        midiFileMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
         midiFileMediaPlayer.start();
     }
 
