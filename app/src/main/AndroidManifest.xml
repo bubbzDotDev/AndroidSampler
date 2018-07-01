@@ -42,7 +42,8 @@
         <activity android:name=".Music.MusicActivity" />
         <activity android:name=".StorageSharedPreferences.StorageSharedPreferencesActivity" />
         <activity android:name=".Menus.MenusActivity" />
-        <activity android:name=".Fragments.FragmentsActivity"></activity>
+        <activity android:name=".Fragments.FragmentsActivity" />
+        <activity android:name=".JSONPost.JSONPostActivity"></activity>
     </application>
 
 </manifest>

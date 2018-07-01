@@ -22,7 +22,8 @@ public class EarthquakeLoader extends AsyncTask<Void, Void, List<EarthquakeEvent
     }
 
     protected List<EarthquakeEvent> doInBackground(Void... voids) {
-        EarthquakeList earthquakeList = (EarthquakeList) JSONHelper.loadJsonData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", null, EarthquakeList.class);
+        EarthquakeList earthquakeList = (EarthquakeList) JSONHelper.loadJsonData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", null,
+                EarthquakeList.class, JSONHelper.LOAD_GET);
         return earthquakeList.getEarthquakes();
     }
 

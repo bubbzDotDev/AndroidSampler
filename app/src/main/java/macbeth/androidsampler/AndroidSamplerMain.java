@@ -10,6 +10,7 @@ import macbeth.androidsampler.FirebaseData.FirebaseDataActivity;
 import macbeth.androidsampler.FirebaseLogin.FirebaseLogin;
 import macbeth.androidsampler.Fragments.FragmentsActivity;
 import macbeth.androidsampler.GoogleLogin.GoogleLogin;
+import macbeth.androidsampler.JSONPost.JSONPostActivity;
 import macbeth.androidsampler.JSONRecyclerView.JSONRecyclerView;
 import macbeth.androidsampler.Menus.MenusActivity;
 import macbeth.androidsampler.Music.MusicActivity;
@@ -71,6 +72,11 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runFragments(View view) {
         Intent intent = new Intent(this, FragmentsActivity.class);
+        startActivity(intent);
+    }
+
+    public void runJSONPost(View view) {
+        Intent intent = new Intent(this, JSONPostActivity.class);
         startActivity(intent);
     }
 }
