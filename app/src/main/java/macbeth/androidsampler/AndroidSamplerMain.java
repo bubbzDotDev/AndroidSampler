@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import macbeth.androidsampler.ArcGisMapDisplay.ArcGisMapDisplay;
+import macbeth.androidsampler.CalendarDisplay.CalendarDisplayActivity;
 import macbeth.androidsampler.FirebaseData.FirebaseDataActivity;
 import macbeth.androidsampler.FirebaseLogin.FirebaseLogin;
 import macbeth.androidsampler.Fragments.FragmentsActivity;
@@ -77,6 +78,11 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runJSONPost(View view) {
         Intent intent = new Intent(this, JSONPostActivity.class);
+        startActivity(intent);
+    }
+
+    public void runCalendarDisplay(View view) {
+        Intent intent = new Intent(this, CalendarDisplayActivity.class);
         startActivity(intent);
     }
 }
