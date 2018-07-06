@@ -1,11 +1,9 @@
 package macbeth.androidsampler.CalendarDisplay;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.icu.util.Calendar;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -14,7 +12,8 @@ import macbeth.androidsampler.R;
 
 public class CalendarDisplayActivity extends AppCompatActivity {
 
-    TextView selectedDate;
+    private TextView selectedDate;
+    private TextView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +21,8 @@ public class CalendarDisplayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar_display);
         setTitle("Calendar Display");
         selectedDate = findViewById(R.id.textView26);
+        calendarView = findViewById(R.id.textView27);
+        calendarView.setMovementMethod(new ScrollingMovementMethod());
     }
 
     public void selectDate(View view) {
@@ -34,5 +35,9 @@ public class CalendarDisplayActivity extends AppCompatActivity {
                     }
                 });
         dialog.show();
+    }
+
+    private void displayEvents(int month, int day, int year) {
+
     }
 }
