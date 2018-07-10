@@ -44,36 +44,22 @@ public class JSONPostLoader extends AsyncTask<Void, Void, String> {
             connection.setRequestProperty("User-Agent", "Java client");
             connection.setRequestProperty("Content-Type", "application/json");
 
-            HashMap<String, List<String>> params = new HashMap<String,List<String>>();
-            List<String> v0 = new ArrayList<String>();
-            v0.add("G");
-            params.put("age_certifications",v0);
-            List<String> v1 = new ArrayList<String>();
-            v1.add("movie");
-            params.put("content_types",v1);
-            params.put("presentation_types",null);
-            List<String> v3 = new ArrayList<String>();
-            v3.add("amp");
-            params.put("providers",v3);
-            params.put("genres",null);
-            params.put("languages",null);
-            params.put("release_year_from",null);
-            params.put("release_year_until",null);
-            List<String> v2 = new ArrayList<String>();
-            v2.add("flatrate");
-            params.put("monetization_types",v2);
-            params.put("min_price",null);
-            params.put("max_price",null);
-            params.put("nationwide_cinema_releases_only",null);
-            params.put("scoring_filter_types",null);
-            params.put("cinema_release",null);
-            params.put("query",null);
-            params.put("page",null);
-            params.put("page_size",null);
-            params.put("timeline_type",null);
+            JSONData data = new JSONData();
+
+            // Hopefully find "Gone with the Wind" for free on Amazon Prime ... Good for family
+            data.setQuery("wind");
+
+            List<String> providers = new ArrayList<String>();
+            providers.add("amp"); // Amazon Prime
+            data.setProviders(providers);
+
+            List<String> certifications = new ArrayList<String>();
+            certifications.add("G");
+            data.setAge_certifications(certifications);
+
 
             Gson gson = new Gson();
-            String body = gson.toJson(params);
+            String body = gson.toJson(data);
 
             DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
             wr.writeBytes(body);
