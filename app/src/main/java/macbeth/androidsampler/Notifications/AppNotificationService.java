@@ -56,13 +56,14 @@ public class AppNotificationService extends NotificationListenerService{
 
     class AppNotificationServiceListener extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent) {
+            public void onReceive(Context context, Intent intent) {
             // Look in the intent for the app name to block
             if (intent.hasExtra("block_app")) {
                 appBlockName = intent.getStringExtra("block_app");
                 Log.i("AppNotificationService","Received broadcast from activity to block.");
                 System.out.println("Received broadcast from activity: " + appBlockName);
             }
+
         }
     }
 }
