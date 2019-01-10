@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -30,10 +31,13 @@ import com.google.api.services.calendar.model.Event;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import macbeth.androidsampler.R;
 
@@ -116,7 +120,7 @@ public class CalendarDisplayActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        selectedDate.setText(month + "\\" + day + "\\" + year);
+                        selectedDate.setText((month+1) + "\\" + day + "\\" + year);
                         displayEvents(month, day, year);
                     }
                 });
@@ -129,41 +133,40 @@ public class CalendarDisplayActivity extends AppCompatActivity {
             return;
         }
         calendarView.setText("Logged into Google as: "+account.getDisplayName());
-        DateTime todayStart = new DateTime(new Date(year, month, day));
-        DateTime todayStop = new DateTime(new Date(year, month, day));
-        new CalendarEventTask().execute(todayStart, todayStop);
+        String pattern = "M\\dd\\yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        // https://stackoverflow.com/questions/7672597/how-to-get-timezone-from-android-mobile
+        simpleDateFormat.setTimeZone(TimeZone.getDefault());
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = simpleDateFormat.parse(selectedDate.getText().toString());
+            java.util.Calendar c = java.util.Calendar.getInstance();
+            c.setTime(startDate);
+            // https://stackoverflow.com/questions/428918/how-can-i-increment-a-date-by-one-day-in-java
+            c.add(java.util.Calendar.DATE, 1);
+            endDate = c.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        new CalendarEventTask().execute(new DateTime(startDate), new DateTime(endDate));
     }
 
     private class CalendarEventTask extends AsyncTask<DateTime, Void, List<Event>> {
-        @Override
-        protected void onPostExecute(List<Event> events) {
-            super.onPostExecute(events);
-            if (events == null) {
-                calendarView.append("\nUnable to access Calendar");
-            }
-            else if (events.isEmpty()) {
-                calendarView.append("\nNo events in Calendar for this day.");
-            } else {
-                calendarView.append("\nEvents for today:");
-                for ( Event event : events) {
-                    DateTime start = event.getStart().getDateTime();
-                    if (start == null) {
-                        start = event.getStart().getDate();
-                    }
-                    calendarView.append("\n"+event.getSummary()+" - "+start);
-                }
-            }
-        }
+
 
         @Override
         protected List<Event> doInBackground(DateTime... dates) {
             try {
                 String calendarId = calendarIds.get((int)spinner.getSelectedItemId());
                 Calendar.Events calEvents = service.events();
-                Calendar.Events.List calEventsList = calEvents.list(calendarId); // My personal google calendar ID for "Macbeth Family"
-                Events events = calEventsList.setMaxResults(10)
-                                .setTimeMin(new DateTime(System.currentTimeMillis()))
-                                //.setTimeMax(dates[1])   // TODO: I want to display just the calendar entries for the selected date (ie. between dates[0] and dates[1]
+                Calendar.Events.List calEventsList = calEvents.list(calendarId);
+                Log.d("CALDATE", dates[0].toStringRfc3339());
+                Log.d("CALDATE", dates[1].toStringRfc3339());
+                Events events = calEventsList
+                                .setTimeMin(dates[0])
+                                .setTimeMax(dates[1])
                                 .setOrderBy("startTime")
                                 .setSingleEvents(true)
                                 .execute();  // Returns null if not logged into Google
@@ -174,6 +177,26 @@ public class CalendarDisplayActivity extends AppCompatActivity {
                 return null;
             } catch (IOException ioe) {
                 return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> events) {
+            super.onPostExecute(events);
+            if (events == null) {
+                calendarView.append("\nUnable to access Calendar");
+            }
+            else if (events.isEmpty()) {
+                calendarView.append("\nNo events in Calendar for this day.");
+            } else {
+                calendarView.append("\nEvents for selected date:");
+                for ( Event event : events) {
+                    DateTime start = event.getStart().getDateTime();
+                    if (start == null) {
+                        start = event.getStart().getDate();
+                    }
+                    calendarView.append("\n"+event.getSummary()+" - "+start);
+                }
             }
         }
 
