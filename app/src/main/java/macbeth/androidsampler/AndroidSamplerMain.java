@@ -18,6 +18,11 @@ import macbeth.androidsampler.Music.MusicActivity;
 import macbeth.androidsampler.Notifications.Notifications;
 import macbeth.androidsampler.StorageSharedPreferences.StorageSharedPreferencesActivity;
 
+/**
+ * The sampler app has a main activity with buttons to test out the different
+ * capabilities of the Android SDK.  Each button will launch an activity
+ * that exists in one of the sub folders.
+ */
 public class AndroidSamplerMain extends AppCompatActivity {
 
     @Override

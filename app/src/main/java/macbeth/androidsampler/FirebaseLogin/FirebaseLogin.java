@@ -23,6 +23,15 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import macbeth.androidsampler.R;
 
+/**
+ * Login to Fireboase via Google
+ * https://firebase.google.com/docs/auth/android/google-signin
+ *
+ * To get the default_web_client_id, need to goto https://console.firebase.google.com
+ * or https://console.developers.google.com/apis/credentials
+ * Need to put the web client id into strings.xml.  If you do this, then you don't
+ * need the Google Services Plugin in the gradle files.
+ */
 public class FirebaseLogin extends AppCompatActivity {
     private String TAG = "FirebaseAuth";
     private FirebaseAuth mAuth;
@@ -35,6 +44,7 @@ public class FirebaseLogin extends AppCompatActivity {
         setContentView(R.layout.activity_firebase_login);
         setTitle("Firebase Login");
         updateProgressBar(false);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()

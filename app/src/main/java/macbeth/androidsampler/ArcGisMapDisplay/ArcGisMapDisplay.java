@@ -17,6 +17,14 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
 import macbeth.androidsampler.R;
 
+/**
+ * This activity will display a map using ArcGIS.
+ * Code is based on sample code from:
+ * https://developers.arcgis.com/android/latest/sample-code/sample-code.htm
+ *
+ * This activity will receive an intent containing a description, latitude,
+ * and longitude.  A dot will be displayed on the map.
+ */
 public class ArcGisMapDisplay extends AppCompatActivity {
 
     private MapView mMapView;
@@ -32,25 +40,34 @@ public class ArcGisMapDisplay extends AppCompatActivity {
 
 
         Intent intent = getIntent();
+        // Get the data from the intent
         String description = intent.getStringExtra("description");
         float latitude = intent.getFloatExtra("latitude",0.0f);
         float longitude = intent.getFloatExtra("longitude",0.0f);
+
+        // Display the description information in the text view
         tv.setText(description);
+
+        // Create a Topo map zoomed into the lat/long coordinates
         ArcGISMap map = new ArcGISMap(Basemap.Type.TOPOGRAPHIC, latitude, longitude, 8);
         mMapView.setMagnifierEnabled(true);
         GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
         mMapView.getGraphicsOverlays().add(graphicsOverlay);
+
+        // Create a point on the map
         Point point = new Point(longitude, latitude, SpatialReferences.getWgs84());
         SimpleMarkerSymbol dot;
-
         dot = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 12);
-
         Graphic graphic = new Graphic(point, dot);
         graphicsOverlay.getGraphics().add(graphic);
+
+        // Display the map in the layout
         mMapView.setMap(map);
 
 
     }
+
+    // The 3 functions below are implemented to call the associated functions for the map.
 
     @Override
     protected void onPause(){

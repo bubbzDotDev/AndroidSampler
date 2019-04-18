@@ -9,6 +9,11 @@ import com.google.firebase.database.DataSnapshot;
 
 import macbeth.androidsampler.R;
 
+/**
+ * When the user submits a name in the Activity screen, the name is sent to the Firebase
+ * database.  The data view will get updated with the names from the Firebase database.  To work
+ * with the FirebaseHelper class, this Activity must implement the FirebaseObserver.
+ */
 public class FirebaseDataActivity extends AppCompatActivity implements FirebaseObserver {
 
     private FirebaseHelper firebaseHelper;

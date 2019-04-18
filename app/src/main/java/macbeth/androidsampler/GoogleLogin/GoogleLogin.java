@@ -19,6 +19,16 @@ import com.google.android.gms.tasks.Task;
 
 import macbeth.androidsampler.R;
 
+/**
+ *  Will login to Google: https://developers.google.com/identity/sign-in/android/sign-in
+ *
+ *  To get the default_web_client_id, need to goto https://console.firebase.google.com
+ *  or https://console.developers.google.com/apis/credentials
+ *  Need to put the web client id into strings.xml.  If you do this, then you don't
+ *  need the Google Services Plugin in the gradle files.
+ *
+ */
+
 public class GoogleLogin extends AppCompatActivity {
     private String TAG = "GoogleLogin";
     private GoogleSignInClient mGoogleSignInClient;

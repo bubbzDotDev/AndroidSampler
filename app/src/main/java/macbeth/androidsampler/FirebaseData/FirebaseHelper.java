@@ -9,9 +9,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * The purpose of this class is to provide support for reading and writing to Firebase
+ * A FirebaseHelper object should be created for each database.  An observer object
+ * is provided so that the initial read of data and any new data added can be notified to the
+ * observer.  This class is not yet written to support updates to Firebase data.  To do this
+ * you would need to add a new callback to FirebaseObserver and implement one of the
+ * functions in the ChildEventListener below.
+ *
+ * writeFirebase - Write an object to the database in the background.  No notification is
+ * given when the write is completed.
+ *
+ * https://firebase.google.com/docs/android/setup
+ * https://firebase.google.com/docs/database/android/read-and-write
+ *
+ */
 public class FirebaseHelper {
 
-    public final static String log = "FirebaseHelper";
+    private final static String log = "FirebaseHelper";
     private DatabaseReference databaseRef;
     private FirebaseObserver observer;
 

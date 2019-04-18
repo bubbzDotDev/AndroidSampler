@@ -30,7 +30,6 @@ import com.google.api.services.calendar.model.Event;
 
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +40,10 @@ import java.util.TimeZone;
 
 import macbeth.androidsampler.R;
 
+/**
+ * This activity will read the google calendar entries for the user that is logged in and
+ * display them.
+ */
 public class CalendarDisplayActivity extends AppCompatActivity {
 
     private TextView selectedDate;
@@ -64,18 +67,32 @@ public class CalendarDisplayActivity extends AppCompatActivity {
         selectedDate = findViewById(R.id.textView26);
         calendarView = findViewById(R.id.textView27);
         spinner = findViewById(R.id.spinner2);
+
+        // Create array lists ready to store the list of calendar names and id's from the
+        // the user after login.  The names will be a "human-readable" name and the id
+        // will contain the information needed to read calendar entries.  It is assumed
+        // that the name and id will be the same index in both array lists.
         calendarNames = new ArrayList<String>();
         calendarIds = new ArrayList<String>();
         calendarView.setMovementMethod(new ScrollingMovementMethod());
+
         loginGoogleCalendar();
     }
 
     private void loginGoogleCalendar() {
-       account = GoogleSignIn.getLastSignedInAccount(this);
+        // Check to see we are already logged in.  Null will be returned if not logged in yet.
+        // It is assumed that the user will login via the GoogleLogin activity.
+        // https://developers.google.com/identity/sign-in/android/sign-in
+        // https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignIn#getLastSignedInAccount(android.content.Context)
+        account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
+            // Using the google account, gain access to teh Google Calendar
+            // https://developers.google.com/calendar/quickstart/java
             GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(this, SCOPES);
             credential.setSelectedAccount(account.getAccount());
             service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
+
+            // Run a background task to get Calendar data
             new CalendarListTask().execute();
         }
 
@@ -84,6 +101,9 @@ public class CalendarDisplayActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Populate the spinner with calendar names.
+     */
     private void createSpinnerAdapter() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, calendarNames);
         spinner.setAdapter(adapter);
@@ -94,6 +114,8 @@ public class CalendarDisplayActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
 
             try {
+                // Get a list of calendar names and id's using the Calendar API
+                // https://developers.google.com/resources/api-libraries/documentation/calendar/v3/java/latest/com/google/api/services/calendar/Calendar.html
                 CalendarList calendarList = service.calendarList().list().setPageToken(null).execute();
                 List<CalendarListEntry> calendars = calendarList.getItems();
                 for (CalendarListEntry calendarListEntry : calendars) {
@@ -110,17 +132,26 @@ public class CalendarDisplayActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            // When done getting all calendar names, update spinner
             createSpinnerAdapter();
         }
     }
 
+    /**
+     * Display a dialog box to select a date.
+     * https://developer.android.com/guide/topics/ui/controls/pickers
+     * @param view
+     */
     public void selectDate(View view) {
         DatePickerDialog dialog = new DatePickerDialog(this);
         dialog.setOnDateSetListener(
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        // Set the selectedDate based on what was selected by the user
                         selectedDate.setText((month+1) + "\\" + day + "\\" + year);
+
+                        // Display all events in the Google Calendar based on the date
                         displayEvents(month, day, year);
                     }
                 });
@@ -132,7 +163,11 @@ public class CalendarDisplayActivity extends AppCompatActivity {
             calendarView.setText("Not Logged In To Google");
             return;
         }
+        // Show the user name
         calendarView.setText("Logged into Google as: "+account.getDisplayName());
+
+        // To query the Calendar, need to convert the selected date to a start and end date
+        // using the DataTime class.  Need to take into account the timezone.
         String pattern = "M\\dd\\yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         // https://stackoverflow.com/questions/7672597/how-to-get-timezone-from-android-mobile
@@ -150,6 +185,7 @@ public class CalendarDisplayActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Start a background task to read calendar entries
         new CalendarEventTask().execute(new DateTime(startDate), new DateTime(endDate));
     }
 
@@ -159,11 +195,14 @@ public class CalendarDisplayActivity extends AppCompatActivity {
         @Override
         protected List<Event> doInBackground(DateTime... dates) {
             try {
+                // Get the current selected calendar
                 String calendarId = calendarIds.get((int)spinner.getSelectedItemId());
                 Calendar.Events calEvents = service.events();
                 Calendar.Events.List calEventsList = calEvents.list(calendarId);
                 Log.d("CALDATE", dates[0].toStringRfc3339());
                 Log.d("CALDATE", dates[1].toStringRfc3339());
+
+                // Get all events sorted
                 Events events = calEventsList
                                 .setTimeMin(dates[0])
                                 .setTimeMax(dates[1])
@@ -173,7 +212,9 @@ public class CalendarDisplayActivity extends AppCompatActivity {
                 List<Event> eventList = events.getItems();
                 return eventList;
             } catch (UserRecoverableAuthIOException e) {
-                startActivityForResult(e.getIntent(), 0); // Request permission to get access to Google Calendar
+                // Even if you are logged in, you have to have permissions granted to see
+                // calendar data.  The activity below is built into the library.
+                startActivityForResult(e.getIntent(), 0);
                 return null;
             } catch (IOException ioe) {
                 return null;
@@ -189,6 +230,7 @@ public class CalendarDisplayActivity extends AppCompatActivity {
             else if (events.isEmpty()) {
                 calendarView.append("\nNo events in Calendar for this day.");
             } else {
+                // Display all the events in the result
                 calendarView.append("\nEvents for selected date:");
                 for ( Event event : events) {
                     DateTime start = event.getStart().getDateTime();
