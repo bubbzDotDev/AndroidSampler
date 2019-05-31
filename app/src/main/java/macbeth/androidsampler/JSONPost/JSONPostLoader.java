@@ -36,15 +36,18 @@ public class JSONPostLoader extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... dummy) {
         try {
             // Create a stream to the URL
-            URL urlObj = new URL("https://api.justwatch.com/titles/en_US/popular");
+            URL urlObj = new URL("https://apis.justwatch.com/content/titles/en_US/popular");
             HttpsURLConnection connection = (HttpsURLConnection) urlObj.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("POST");  // We need these 2 set functions for a POST
             connection.setDoOutput(true);
-            connection.setChunkedStreamingMode(0);
+            // Sometimes the API wants us to specify these properties
             connection.setRequestProperty("User-Agent", "Java client");
             connection.setRequestProperty("Content-Type", "application/json");
 
             JSONData data = new JSONData();
+
+            // With a Post, we have to write data to the server.  For a Get, the data is part of
+            // the URL so we didn't have to write.
 
             // Hopefully find "Gone with the Wind" for free on Amazon Prime ... Good for family
             data.setQuery("wind");
@@ -60,6 +63,10 @@ public class JSONPostLoader extends AsyncTask<Void, Void, String> {
 
             Gson gson = new Gson();
             String body = gson.toJson(data);
+
+            // We created the body above by creating a JSONData object that contained our request
+            // and then we converted it to JSON.  In other words, the API expects that we request
+            // information via POST using JSON format.
 
             DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
             wr.writeBytes(body);
@@ -87,6 +94,7 @@ public class JSONPostLoader extends AsyncTask<Void, Void, String> {
     }
 
     protected void onPostExecute(String result) {
+        // Let the activity now that we are done.
         if (activityRef.get() != null && result != null) {
             activityRef.get().displayDump(result);
             activityRef.get().disableProgressBar();

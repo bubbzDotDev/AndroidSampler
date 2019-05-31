@@ -7,6 +7,7 @@ import android.view.View;
 
 import macbeth.androidsampler.ArcGisMapDisplay.ArcGisMapDisplay;
 import macbeth.androidsampler.CalendarDisplay.CalendarDisplayActivity;
+import macbeth.androidsampler.Files.FilesActivity;
 import macbeth.androidsampler.FirebaseData.FirebaseDataActivity;
 import macbeth.androidsampler.FirebaseLogin.FirebaseLogin;
 import macbeth.androidsampler.Fragments.FragmentsActivity;
@@ -88,6 +89,11 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runCalendarDisplay(View view) {
         Intent intent = new Intent(this, CalendarDisplayActivity.class);
+        startActivity(intent);
+    }
+
+    public void runFiles(View view) {
+        Intent intent = new Intent(this, FilesActivity.class);
         startActivity(intent);
     }
 }

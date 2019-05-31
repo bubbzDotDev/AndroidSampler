@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Files.FilesActivity"></activity>
         <activity android:name=".AndroidSamplerMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +46,7 @@
         <activity android:name=".Menus.MenusActivity" />
         <activity android:name=".Fragments.FragmentsActivity" />
         <activity android:name=".JSONPost.JSONPostActivity" />
-        <activity android:name=".CalendarDisplay.CalendarDisplayActivity"></activity>
+        <activity android:name=".CalendarDisplay.CalendarDisplayActivity" />
     </application>
 
 </manifest>

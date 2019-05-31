@@ -18,13 +18,13 @@ public class Fragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Load the fragment view
         rootView = inflater.inflate(R.layout.fragment_fragment1, container, false);
-        // Get the Fragment Presenter
-        Bundle args = getArguments();
-        presenter = (FragmentsPresenter) args.getSerializable("Presenter");
+        presenter = ((FragmentsActivity) getActivity()).getPresenter();
         // Register this fragment with the presenter
         if (presenter != null) {
             presenter.registerFragment1(this);
         }
+        // Get the system time from the bundle arguments
+        Bundle args = getArguments();
         TextView tvTime = rootView.findViewById(R.id.textView13);
         tvTime.setText(args.getString("SystemTime"));
         return rootView;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 
 import macbeth.androidsampler.R;
@@ -27,6 +28,7 @@ public class FirebaseDataActivity extends AppCompatActivity implements FirebaseO
         setTitle("Firebase Data");
         evNameData = findViewById(R.id.editText2);
         evNameToAdd = findViewById(R.id.editText);
+        //FirebaseApp.initializeApp(this);
         firebaseHelper = new FirebaseHelper("names", this);
     }
 

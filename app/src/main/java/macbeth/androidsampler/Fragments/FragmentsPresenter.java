@@ -2,7 +2,7 @@ package macbeth.androidsampler.Fragments;
 
 import java.io.Serializable;
 
-public class FragmentsPresenter implements Serializable {
+public class FragmentsPresenter  {
 
     private Fragment1 fragment1;
     private Fragment2 fragment2;

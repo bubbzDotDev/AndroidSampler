@@ -1,6 +1,7 @@
 package macbeth.androidsampler.CalendarDisplay;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -123,6 +126,9 @@ public class CalendarDisplayActivity extends AppCompatActivity {
                     calendarIds.add(calendarListEntry.getId());
                 }
             }
+            catch (UserRecoverableAuthIOException e) {
+                startActivityForResult(e.getIntent(), 0);
+            }
             catch (IOException ioe) {
                 System.out.println(ioe.getMessage());
             }
@@ -134,6 +140,15 @@ public class CalendarDisplayActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             // When done getting all calendar names, update spinner
             createSpinnerAdapter();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Try to get calendar data again
+        if (requestCode == 0) {
+            new CalendarListTask().execute();
         }
     }
 

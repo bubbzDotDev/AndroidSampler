@@ -1,5 +1,6 @@
 package macbeth.androidsampler.StorageSharedPreferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -30,14 +31,14 @@ public class StorageSharedPreferencesActivity extends AppCompatActivity {
     }
 
     private void writeSharedPreferences() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sp = getSharedPreferences("contact_info", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(SP_ZIP_CODE, etZipCode.getText().toString());
         editor.commit();
     }
 
     private void readSharedPreferences() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sp = getSharedPreferences("contact_info", Context.MODE_PRIVATE);
         String zipCode = sp.getString(SP_ZIP_CODE,"");
         etZipCode.setText(zipCode);
         Toast.makeText(this, "Shared Preferences Loaded", Toast.LENGTH_SHORT).show();

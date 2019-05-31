@@ -24,7 +24,7 @@ public class JSONPostActivity extends AppCompatActivity {
         textview = findViewById(R.id.textView9);
         textview.setMovementMethod(new ScrollingMovementMethod());
         disableProgressBar();
-        new JSONPostLoader(this).execute();
+        new JSONPostLoader(this).execute(); // Load JSON data via a Post
     }
 
     public void displayDump(String jsonData) {
