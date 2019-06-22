@@ -11,6 +11,7 @@ import macbeth.androidsampler.Files.FilesActivity;
 import macbeth.androidsampler.FirebaseData.FirebaseDataActivity;
 import macbeth.androidsampler.FirebaseLogin.FirebaseLogin;
 import macbeth.androidsampler.Fragments.FragmentsActivity;
+import macbeth.androidsampler.GPS.GPSActivity;
 import macbeth.androidsampler.GoogleLogin.GoogleLogin;
 import macbeth.androidsampler.JSONPost.JSONPostActivity;
 import macbeth.androidsampler.JSONRecyclerView.JSONRecyclerView;
@@ -94,6 +95,11 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runFiles(View view) {
         Intent intent = new Intent(this, FilesActivity.class);
+        startActivity(intent);
+    }
+
+    public void runGPS(View view) {
+        Intent intent = new Intent(this, GPSActivity.class);
         startActivity(intent);
     }
 }
