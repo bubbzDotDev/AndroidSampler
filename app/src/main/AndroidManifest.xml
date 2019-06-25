@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GPS.GPSActivity"></activity>
+        <activity android:name=".Themes.ThemeChanger"></activity>
+        <activity android:name=".GPS.GPSActivity" />
         <activity android:name=".Files.FilesActivity" />
         <activity android:name=".AndroidSamplerMain">
             <intent-filter>

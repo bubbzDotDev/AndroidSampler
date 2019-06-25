@@ -19,6 +19,7 @@ import macbeth.androidsampler.Menus.MenusActivity;
 import macbeth.androidsampler.Music.MusicActivity;
 import macbeth.androidsampler.Notifications.Notifications;
 import macbeth.androidsampler.StorageSharedPreferences.StorageSharedPreferencesActivity;
+import macbeth.androidsampler.Themes.ThemeChanger;
 
 /**
  * The sampler app has a main activity with buttons to test out the different
@@ -100,6 +101,11 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runGPS(View view) {
         Intent intent = new Intent(this, GPSActivity.class);
+        startActivity(intent);
+    }
+
+    public void runThemes(View view) {
+        Intent intent = new Intent(this, ThemeChanger.class);
         startActivity(intent);
     }
 }

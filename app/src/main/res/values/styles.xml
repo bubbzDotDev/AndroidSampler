@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.DarkMode" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#978F78</item>
+    </style>
+
+    <style name="AppTheme.LightMode" parent="AppTheme">
+    </style>
+
+    <style name="AppTheme.RedMode" parent="AppTheme.LightMode">
+        <item name="colorPrimary">#F8D0DD</item>
+        <item name="colorPrimaryDark">#DA0B4E</item>
+        <item name="colorAccent">#DFB10C</item>
+    </style>
+
 </resources>
