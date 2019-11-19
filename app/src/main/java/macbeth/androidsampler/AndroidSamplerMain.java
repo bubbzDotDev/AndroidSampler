@@ -18,6 +18,7 @@ import macbeth.androidsampler.JSONRecyclerView.JSONRecyclerView;
 import macbeth.androidsampler.Menus.MenusActivity;
 import macbeth.androidsampler.Music.MusicActivity;
 import macbeth.androidsampler.Notifications.Notifications;
+import macbeth.androidsampler.Sensors.SensorActivity;
 import macbeth.androidsampler.StorageSharedPreferences.StorageSharedPreferencesActivity;
 import macbeth.androidsampler.Themes.ThemeChanger;
 import macbeth.androidsampler.Pictures.Pictures;
@@ -112,6 +113,11 @@ public class AndroidSamplerMain extends AppCompatActivity {
 
     public void runPictures(View view) {
         Intent intent = new Intent(this, Pictures.class);
+        startActivity(intent);
+    }
+
+    public void runSensors(View view) {
+        Intent intent = new Intent(this, SensorActivity.class);
         startActivity(intent);
     }
 }

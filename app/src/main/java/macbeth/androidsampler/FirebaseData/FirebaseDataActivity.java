@@ -28,7 +28,6 @@ public class FirebaseDataActivity extends AppCompatActivity implements FirebaseO
         setTitle("Firebase Data");
         evNameData = findViewById(R.id.editText2);
         evNameToAdd = findViewById(R.id.editText);
-        //FirebaseApp.initializeApp(this);
         firebaseHelper = new FirebaseHelper("names", this);
     }
 
