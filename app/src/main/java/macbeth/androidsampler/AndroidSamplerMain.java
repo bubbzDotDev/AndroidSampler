@@ -22,6 +22,7 @@ import macbeth.androidsampler.Sensors.SensorActivity;
 import macbeth.androidsampler.StorageSharedPreferences.StorageSharedPreferencesActivity;
 import macbeth.androidsampler.Themes.ThemeChanger;
 import macbeth.androidsampler.Pictures.Pictures;
+import macbeth.androidsampler.ActivityResult.Activity1;
 
 /**
  * The sampler app has a main activity with buttons to test out the different
@@ -120,4 +121,10 @@ public class AndroidSamplerMain extends AppCompatActivity {
         Intent intent = new Intent(this, SensorActivity.class);
         startActivity(intent);
     }
+
+    public void runActivityResult(View view) {
+        Intent intent = new Intent(this, Activity1.class);
+        startActivity(intent);
+    }
+
 }
