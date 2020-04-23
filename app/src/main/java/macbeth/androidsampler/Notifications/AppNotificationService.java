@@ -1,5 +1,7 @@
 package macbeth.androidsampler.Notifications;
 
+
+
 import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +16,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 
-public class AppNotificationService extends NotificationListenerService{
+public class AppNotificationService extends NotificationListenerService {
 
     String appBlockName = "";
 
