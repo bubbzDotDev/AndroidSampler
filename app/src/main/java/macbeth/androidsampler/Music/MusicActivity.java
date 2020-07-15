@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +18,7 @@ public class MusicActivity extends AppCompatActivity {
     private Button pauseButton;
     private Button stopButton;
     private MediaPlayer mediaPlayer;
+    private EditText etStreamUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,20 +28,24 @@ public class MusicActivity extends AppCompatActivity {
         playButton = findViewById(R.id.play);
         pauseButton = findViewById(R.id.pause);
         stopButton = findViewById(R.id.stop);
+        etStreamUrl = findViewById(R.id.et_stream_url);
         playButton.setEnabled(true);
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
 
-        initStream();
+        mediaPlayer = null;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
     }
 
     public void playC(View view) {
+        mediaPlayer = new MediaPlayer();
         MediaPlayer midiFileMediaPlayer = MediaPlayer.create(this, R.raw.note_middle_c);
         midiFileMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -50,51 +56,53 @@ public class MusicActivity extends AppCompatActivity {
         midiFileMediaPlayer.start();
     }
 
-    private void initStream() {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                playButton.setEnabled(false);
-                pauseButton.setEnabled(true);
-                stopButton.setEnabled(true);
-                mediaPlayer.start();
-            }
-        });
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                playButton.setEnabled(true);
-                pauseButton.setEnabled(false);
-                stopButton.setEnabled(false);
-                mediaPlayer.stop();
-            }
-        });
-        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-                playButton.setEnabled(true);
-                pauseButton.setEnabled(false);
-                stopButton.setEnabled(false);
-                mediaPlayer.stop();
-                return true;
-            }
-        });
-        try {
-            mediaPlayer.setDataSource("https://ia802600.us.archive.org/13/items/Mozart_201502/Mozart.mp3");
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
-    }
-
     public void playStream(View view) {
-        if (!stopButton.isEnabled()) { // Determines if not in paused state
+        if (!stopButton.isEnabled()) { // If stop is disabled then I'm not in a pause state and
+                                       // I want to start to playing a new song
+            // Load stream
+            mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(etStreamUrl.getText().toString());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+                return;
+            }
+            // Setup listeners when loading music
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    playButton.setEnabled(false);
+                    pauseButton.setEnabled(true);
+                    stopButton.setEnabled(true);
+                    mediaPlayer.start();
+                }
+            });
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) { // End music when stream is done
+                    playButton.setEnabled(true);
+                    pauseButton.setEnabled(false);
+                    stopButton.setEnabled(false);
+                    mediaPlayer.stop();
+                }
+            });
+            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                    playButton.setEnabled(true);
+                    pauseButton.setEnabled(false);
+                    stopButton.setEnabled(false);
+                    mediaPlayer.stop();
+                    return true;
+                }
+            });
             playButton.setEnabled(false);
             stopButton.setEnabled(true);
             pauseButton.setEnabled(false);
-            mediaPlayer.prepareAsync();
+            mediaPlayer.prepareAsync();  // Start buffering from streaming site
+                                        // Will start playing when onPrepared gets called
         }
-        else {
+        else {   // Restarting previous music while paused
             playButton.setEnabled(false);
             stopButton.setEnabled(true);
             pauseButton.setEnabled(true);
@@ -114,6 +122,7 @@ public class MusicActivity extends AppCompatActivity {
         pauseButton.setEnabled(false);
         stopButton.setEnabled(false);
         mediaPlayer.stop();
+        mediaPlayer.release();
     }
 
 
